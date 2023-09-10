@@ -16,6 +16,7 @@
 #include <optional>
 
 namespace up {
+
 struct store_record_vm {
 	vm vm;
 	static std::optional<store_record_vm> make(up::db& db) noexcept {
