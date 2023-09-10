@@ -1,0 +1,10 @@
+{
+    "project": "C++ unqlite wrapper",
+    "target": "single_include/unqlite_cpp/unqlite_cpp.hpp",
+    "sources": [
+        "include/unqlite_cpp/unqlite_cpp.hpp"
+    ],
+    "include_paths": [
+        "include"
+    ]
+}
