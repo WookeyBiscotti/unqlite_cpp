@@ -1,2 +1,2 @@
-# unqlite_cpp
+# unqliteC++
 C++ unqlite wrapper
