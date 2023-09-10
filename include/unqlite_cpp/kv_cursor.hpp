@@ -79,7 +79,7 @@ class kv_cursor {
 
 	bool reset_cursor(kv_cursor_op_status* status = nullptr) noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	kv_cursor& seek_or_throw(std::string_view key,
 	    kv_cursor_match_direction direction = kv_cursor_match_direction::EXACT);
 
@@ -109,7 +109,7 @@ class kv_cursor {
 
 	bool process_op_error(int rc, kv_cursor_op_status* status) const noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	template<class... Args>
 	void throw_if_error(bool (kv_cursor::*op)(Args... args, kv_cursor_op_status* status) noexcept, Args... args);
 
@@ -276,7 +276,7 @@ inline std::optional<std::vector<unsigned char>> kv_cursor::data_vector(kv_curso
 	}
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 template<class... Args>
 void kv_cursor::throw_if_error(bool (kv_cursor::*op)(Args... args, kv_cursor_op_status* status) noexcept,
     Args... args) {

@@ -211,7 +211,7 @@ struct status_to_string_view<vm_exec_status> {
 } // namespace up
 
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 
 #include <stdexcept>
 #include <string>
@@ -336,7 +336,7 @@ class kv_cursor {
 
 	bool reset_cursor(kv_cursor_op_status* status = nullptr) noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	kv_cursor& seek_or_throw(std::string_view key,
 	    kv_cursor_match_direction direction = kv_cursor_match_direction::EXACT);
 
@@ -366,7 +366,7 @@ class kv_cursor {
 
 	bool process_op_error(int rc, kv_cursor_op_status* status) const noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	template<class... Args>
 	void throw_if_error(bool (kv_cursor::*op)(Args... args, kv_cursor_op_status* status) noexcept, Args... args);
 
@@ -533,7 +533,7 @@ inline std::optional<std::vector<unsigned char>> kv_cursor::data_vector(kv_curso
 	}
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 template<class... Args>
 void kv_cursor::throw_if_error(bool (kv_cursor::*op)(Args... args, kv_cursor_op_status* status) noexcept,
     Args... args) {
@@ -785,7 +785,7 @@ class value {
 	bool operator==(const value& other) const noexcept;
 	bool operator!=(const value& other) const noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	const value& at(const std::string& key) const;
 	const value& at(std::size_t idx) const;
 
@@ -993,7 +993,7 @@ inline bool value::operator!=(const value& other) const noexcept {
 	return !this->operator==(other);
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 inline const value& value::at(const std::string& key) const {
 	if (!is_object()) {
 		throw wrong_type("Value is not an object.");
@@ -1127,7 +1127,7 @@ class vm_value {
 
 	value make_value() const noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	const vm_value at(const std::string& key) const;
 	vm_value at(const std::string& key);
 
@@ -1339,7 +1339,7 @@ inline value vm_value::make_value() const noexcept {
 	return value;
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 inline const vm_value vm_value::at(const std::string& key) const {
 	if (!is_object()) {
 		throw wrong_type("Value is not an object.");
@@ -1451,7 +1451,7 @@ class vm {
 
 	vm_value make_vm_value(const value& value) noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	vm_value extract_or_throw(const std::string& var_name);
 
 	void bind_or_throw(const std::string& var_name, const vm_value& var);
@@ -1570,7 +1570,7 @@ inline vm& vm::operator=(vm&& other) noexcept {
 	return *this;
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 inline vm_value vm::extract_or_throw(const std::string& var_name) {
 	auto v = extract(var_name);
 	if (v) {
@@ -1681,7 +1681,7 @@ class db {
 	bool rollback(db_transaction_status* status = nullptr, std::string_view* error_text = nullptr) noexcept;
 	bool commit(db_transaction_status* status = nullptr, std::string_view* error_text = nullptr) noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	db(const std::string& filename, unsigned int mode = OPEN_CREATE);
 
 	vm compile_or_throw(std::string_view code);
@@ -2013,7 +2013,7 @@ inline std::optional<kv_cursor> db::make_kv_cursor(db_make_kv_cursor_status* sta
 	}
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 inline db::db(const std::string& filename, unsigned int mode) {
 	unqlite* db;
 	auto res = unqlite_open(&db, filename.c_str(), mode);

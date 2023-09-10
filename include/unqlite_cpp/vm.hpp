@@ -49,7 +49,7 @@ class vm {
 
 	vm_value make_vm_value(const value& value) noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	vm_value extract_or_throw(const std::string& var_name);
 
 	void bind_or_throw(const std::string& var_name, const vm_value& var);
@@ -168,7 +168,7 @@ inline vm& vm::operator=(vm&& other) noexcept {
 	return *this;
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 inline vm_value vm::extract_or_throw(const std::string& var_name) {
 	auto v = extract(var_name);
 	if (v) {

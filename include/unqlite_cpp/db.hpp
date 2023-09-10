@@ -87,7 +87,7 @@ class db {
 	bool rollback(db_transaction_status* status = nullptr, std::string_view* error_text = nullptr) noexcept;
 	bool commit(db_transaction_status* status = nullptr, std::string_view* error_text = nullptr) noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	db(const std::string& filename, unsigned int mode = OPEN_CREATE);
 
 	vm compile_or_throw(std::string_view code);
@@ -419,7 +419,7 @@ inline std::optional<kv_cursor> db::make_kv_cursor(db_make_kv_cursor_status* sta
 	}
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 inline db::db(const std::string& filename, unsigned int mode) {
 	unqlite* db;
 	auto res = unqlite_open(&db, filename.c_str(), mode);

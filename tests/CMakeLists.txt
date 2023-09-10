@@ -20,6 +20,6 @@ target_include_directories(unqlite_cpp_tests PUBLIC ${CMAKE_CURRENT_LIST_DIR}/un
 
 target_link_libraries(unqlite_cpp_tests PUBLIC doctest::doctest)
 
-if(${UNQLITEPP_ALLOW_EXCEPTIONS})
-    add_definitions(-DUNQLITEPP_ALLOW_EXCEPTIONS)
+if(${UNQLITE_CPP_ALLOW_EXCEPTIONS})
+    add_definitions(-DUNQLITE_CPP_ALLOW_EXCEPTIONS)
 endif()

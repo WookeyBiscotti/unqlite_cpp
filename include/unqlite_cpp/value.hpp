@@ -94,7 +94,7 @@ class value {
 	bool operator==(const value& other) const noexcept;
 	bool operator!=(const value& other) const noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	const value& at(const std::string& key) const;
 	const value& at(std::size_t idx) const;
 
@@ -302,7 +302,7 @@ inline bool value::operator!=(const value& other) const noexcept {
 	return !this->operator==(other);
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 inline const value& value::at(const std::string& key) const {
 	if (!is_object()) {
 		throw wrong_type("Value is not an object.");

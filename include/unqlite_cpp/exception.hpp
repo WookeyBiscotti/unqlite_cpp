@@ -13,7 +13,7 @@
 
 #include "statuses.hpp"
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 
 #include <stdexcept>
 #include <string>

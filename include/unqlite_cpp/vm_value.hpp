@@ -70,7 +70,7 @@ class vm_value {
 
 	value make_value() const noexcept;
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	const vm_value at(const std::string& key) const;
 	vm_value at(const std::string& key);
 
@@ -282,7 +282,7 @@ inline value vm_value::make_value() const noexcept {
 	return value;
 }
 
-#ifdef UNQLITEPP_ALLOW_EXCEPTIONS
+#ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 inline const vm_value vm_value::at(const std::string& key) const {
 	if (!is_object()) {
 		throw wrong_type("Value is not an object.");
