@@ -1,25 +1,72 @@
-//                     _ _ _
-//                    | (_) |        _     _
-//   _   _ _ __   __ _| |_| |_ ___ _| |_ _| |_
-//  | | | | '_ \ / _` | | | __/ _ \_   _|_   _|
-//  | |_| | | | | (_| | | | ||  __/ |_|   |_|
-//   \__,_|_| |_|\__, |_|_|\__\___|
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
 //                  | |
 //                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt or copy at
+// http://opensource.org/licenses/MIT)
 
 #pragma once
 
 // #include "common_vms.hpp"
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
+//                  | |
+//                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT)
 
 
 // #include "db.hpp"
-
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
+//                  | |
+//                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT)
 
 
 // #include "exception.hpp"
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
+//                  | |
+//                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT)
 
 
 // #include "statuses.hpp"
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
+//                  | |
+//                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT)
 
 
 #include <string_view>
@@ -206,7 +253,17 @@ class exception_with_status: public exception {
 #endif
 
 // #include "kv_cursor.hpp"
-
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
+//                  | |
+//                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT)
 
 
 // #include "exception.hpp"
@@ -218,22 +275,29 @@ class exception_with_status: public exception {
 
 #include <algorithm>
 #include <cassert>
+#include <optional>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace up {
 
 enum class kv_cursor_match_direction {
-	EXACT,    // Default search method supported by all key/value storage subsystem. An exact match is performed. If the
-	          // record exists, the cursor is left pointing to it.
-	MATCH_LE, // The cursor is left pointing to the largest key in the database that is smaller than (pKey/nKey). If the
-	          // database contains no keys smaller than (pKey/nKey), the cursor is left at EOF. This option have sense
-	          // only if the underlying key/value storage subsystem support range search (i.e: B+Tree, R+Tree, etc.).
+	EXACT,    // Default search method supported by all key/value storage subsystem.
+	          // An exact match is performed. If the record exists, the cursor is
+	          // left pointing to it.
+	MATCH_LE, // The cursor is left pointing to the largest key in the database
+	          // that is smaller than (pKey/nKey). If the database contains no
+	          // keys smaller than (pKey/nKey), the cursor is left at EOF. This
+	          // option have sense only if the underlying key/value storage
+	          // subsystem support range search (i.e: B+Tree, R+Tree, etc.).
 	          // Otherwise this option is ignored and an exact match is performed.
-	MATCH_GE, // The cursor is left pointing to the smallest key in the database that is larger than (pKey/nKey). If the
-	          // database contains no keys larger than (pKey/nKey), the cursor is left at EOF. This option have sense
-	          // only if the underlying key/value storage subsystem support range search (i.e: B+Tree, R+Tree, etc.).
-	          // Otherwise this option is ignored and an exact match is performed.
+	MATCH_GE, // The cursor is left pointing to the smallest key in the database
+	          // that is larger than (pKey/nKey). If the database contains no keys
+	          // larger than (pKey/nKey), the cursor is left at EOF. This option
+	          // have sense only if the underlying key/value storage subsystem
+	          // support range search (i.e: B+Tree, R+Tree, etc.). Otherwise this
+	          // option is ignored and an exact match is performed.
 };
 
 class kv_cursor {
@@ -297,7 +361,8 @@ class kv_cursor {
 #endif
 
   private:
-	kv_cursor(unqlite* db, unqlite_kv_cursor* cursor) noexcept: _db(db), _cursor(cursor) {}
+	kv_cursor(unqlite* db, unqlite_kv_cursor* cursor) noexcept: _db(db), _cursor(cursor) {
+	}
 
 	bool process_op_error(int rc, kv_cursor_op_status* status) const noexcept;
 
@@ -589,7 +654,17 @@ inline kv_cursor& kv_cursor::reset_cursor_or_throw() {
 // #include "statuses.hpp"
 
 // #include "vm.hpp"
-
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
+//                  | |
+//                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT)
 
 
 // #include "exception.hpp"
@@ -597,13 +672,33 @@ inline kv_cursor& kv_cursor::reset_cursor_or_throw() {
 // #include "statuses.hpp"
 
 // #include "vm_value.hpp"
-
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
+//                  | |
+//                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT)
 
 
 // #include "exception.hpp"
 
 // #include "value.hpp"
-
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
+//                  | |
+//                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT)
 
 
 // #include "exception.hpp"
@@ -1017,8 +1112,8 @@ class vm_value {
 	std::string_view get_string_view() const noexcept;
 	void* get_resource() const noexcept;
 
-	vm_value operator[](std::string_view key) noexcept;
-	vm_value operator[](std::size_t idx) noexcept;
+	vm_value operator[](std::string_view key) const noexcept;
+	vm_value operator[](std::size_t idx) const noexcept;
 
 	bool contains(std::string_view key) const noexcept;
 	std::optional<vm_value> find(std::string_view key) const noexcept;
@@ -1151,11 +1246,11 @@ inline std::optional<vm_value> vm_value::find(std::string_view key) const noexce
 	}
 }
 
-inline vm_value vm_value::operator[](std::string_view key) noexcept {
+inline vm_value vm_value::operator[](std::string_view key) const noexcept {
 	return *find(key);
 }
 
-inline vm_value vm_value::operator[](std::size_t idx) noexcept {
+inline vm_value vm_value::operator[](std::size_t idx) const noexcept {
 	// auto res = unqlite_array_fetch_by_index(_v, static_cast<std::int64_t>(idx));
 	// return vm_value(res);
 	return *find(std::to_string(idx));
@@ -2212,7 +2307,17 @@ struct drop_record_vm {
 // #include "statuses.hpp"
 
 // #include "utils.hpp"
-
+//                     _ _ _       _____
+//                    | (_) |     /  __ \ _     _
+//   _   _ _ __   __ _| |_| |_ ___| /  \/| |_ _| |_     C++ unqlite wrapper
+//  | | | | '_ \ / _` | | | __/ _ \ |  |_   _|_   _|    https://github.com/WookeyBiscotti/unqlite_cpp
+//  | |_| | | | | (_| | | | ||  __/ \__/\|_|   |_|
+//   \__,_|_| |_|\__, |_|_|\__\___|\____/
+//                  | |
+//                  |_|
+//
+// Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
+// Distributed under the MIT License (MIT)
 
 
 #include <sstream>
