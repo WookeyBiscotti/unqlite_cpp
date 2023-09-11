@@ -8,9 +8,7 @@
 //                  |_|
 //
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
-// Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt or copy at
-// http://opensource.org/licenses/MIT)
-
+// Distributed under the MIT License (MIT)
 #pragma once
 
 // #include "common_vms.hpp"
@@ -778,7 +776,8 @@ class value {
 	bool foreach_object(Fn fn) noexcept;
 
 	bool contains(const std::string& key) const noexcept;
-	std::optional<value> find(const std::string& key) const noexcept;
+	const value* find(const std::string& key) const noexcept;
+	value* find(const std::string& key) noexcept;
 
 	std::size_t size() const noexcept;
 
@@ -918,13 +917,16 @@ inline void* value::get_resource() const noexcept {
 inline bool value::contains(const std::string& key) const noexcept {
 	return std::get_if<object>(&_obj)->count(std::string(key)) != 0;
 }
-inline std::optional<value> value::find(const std::string& key) const noexcept {
+inline const value* value::find(const std::string& key) const noexcept {
 	auto* m = std::get_if<object>(&_obj);
 	if (auto found = m->find(key); found != m->end()) {
-		return found->second;
+		return &found->second;
 	} else {
 		return {};
 	}
+}
+inline value* value::find(const std::string& key) noexcept {
+	return static_cast<value*>(this)->find(key);
 }
 
 inline std::size_t value::size() const noexcept {
@@ -1000,7 +1002,7 @@ inline const value& value::at(const std::string& key) const {
 	}
 	auto found = find(key);
 	if (found) {
-		return std::move(*found);
+		return *found;
 	} else {
 		throw out_of_range("Key :`" + key + "' not found.");
 	}
@@ -2164,6 +2166,7 @@ inline kv_cursor db::make_kv_cursor_or_throw() {
 #include <optional>
 
 namespace up {
+
 struct store_record_vm {
 	vm vm;
 	static std::optional<store_record_vm> make(up::db& db) noexcept {
@@ -2209,12 +2212,12 @@ struct fetch_record_vm {
 		}
 	}
 
-	std::optional<vm_value> fetch(std::string_view collection) noexcept {
-		std::optional<vm_value> res;
+	std::optional<value> fetch(std::string_view collection) noexcept {
+		std::optional<value> res;
 		vm.bind("collection", collection);
 		if (vm.exec()) {
-			if (auto record = vm.extract("record")) {
-				res = std::move(record);
+			if (auto record = vm.extract("record"); !record->is_null()) {
+				res = record->make_value();
 			}
 		}
 		vm.reset_vm();
