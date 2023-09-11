@@ -62,12 +62,12 @@ struct fetch_record_vm {
 		}
 	}
 
-	std::optional<vm_value> fetch(std::string_view collection) noexcept {
-		std::optional<vm_value> res;
+	std::optional<value> fetch(std::string_view collection) noexcept {
+		std::optional<value> res;
 		vm.bind("collection", collection);
 		if (vm.exec()) {
-			if (auto record = vm.extract("record")) {
-				res = std::move(record);
+			if (auto record = vm.extract("record"); !record->is_null()) {
+				res = record->make_value();
 			}
 		}
 		vm.reset_vm();
