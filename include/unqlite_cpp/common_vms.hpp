@@ -20,7 +20,7 @@ namespace up {
 class vm_common {
   public:
 	up::db& db;
-	vm vm;
+	up::vm vm;
 
   protected:
 	vm_common(up::db& db, up::vm vm): db(db), vm(std::move(vm)) {}
@@ -29,7 +29,7 @@ class vm_common {
 class vm_store_record {
   public:
 	up::db& db;
-	vm vm;
+	up::vm vm;
 
 	static std::optional<vm_store_record> make(up::db& db) noexcept {
 		auto vmo = db.compile(R"(
@@ -85,7 +85,7 @@ class vm_store_record {
 
 class vm_fetch_record {
   public:
-	vm vm;
+	up::vm vm;
 
 	static std::optional<vm_fetch_record> make(up::db& db) noexcept {
 		auto vmo = db.compile("$record = db_fetch($collection);"
@@ -140,7 +140,7 @@ class vm_fetch_record {
 
 class vm_fetch_all_records {
   public:
-	vm vm;
+	up::vm vm;
 	static std::optional<vm_fetch_all_records> make(up::db& db) noexcept {
 		auto vmo = db.compile("$records = db_fetch_all($collection);");
 		if (vmo) {
@@ -193,7 +193,7 @@ class vm_fetch_all_records {
 
 class vm_fetch_first_record {
   public:
-	vm vm;
+	up::vm vm;
 	static std::optional<vm_fetch_first_record> make(up::db& db) noexcept {
 		auto vmo = db.compile("db_reset_record_cursor($collection);"
 		                      "$records = db_fetch($collection);");
@@ -249,7 +249,7 @@ class vm_fetch_first_record {
 class vm_drop_record {
   public:
 	up::db& db;
-	vm vm;
+	up::vm vm;
 	static std::optional<vm_drop_record> make(up::db& db) noexcept {
 		auto vmo = db.compile("$rc = db_drop_record($collection, $id);");
 		if (vmo) {

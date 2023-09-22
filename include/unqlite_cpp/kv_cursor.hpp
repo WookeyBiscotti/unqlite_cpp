@@ -104,8 +104,7 @@ class kv_cursor {
 #endif
 
   private:
-	kv_cursor(unqlite* db, unqlite_kv_cursor* cursor) noexcept: _db(db), _cursor(cursor) {
-	}
+	kv_cursor(unqlite* db, unqlite_kv_cursor* cursor) noexcept: _db(db), _cursor(cursor) {}
 
 	bool process_op_error(int rc, kv_cursor_op_status* status) const noexcept;
 
@@ -328,7 +327,11 @@ bool kv_cursor::throw_if_error_in_callback(Fn fn,
 }
 
 inline kv_cursor& kv_cursor::seek_or_throw(std::string_view key, kv_cursor_match_direction direction) {
-	throw_if_error(&kv_cursor::seek, key, direction);
+	kv_cursor_op_status status;
+	if (!kv_cursor::seek(key, direction, &status)) {
+		throw exception_with_status(status);
+	}
+
 	return *this;
 }
 inline kv_cursor& kv_cursor::first_or_throw() {
