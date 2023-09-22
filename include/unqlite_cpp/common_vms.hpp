@@ -67,7 +67,7 @@ class vm_store_record {
 				res = rc->is_bool() && rc->get_bool();
 			}
 		}
-		db.commit();
+		db.commit_or_throw();
 		vm.reset_vm();
 		return res;
 	}
@@ -278,7 +278,7 @@ class vm_drop_record {
 				res = rc->is_bool() && rc->get_bool();
 			}
 		}
-		db.commit();
+		db.commit_or_throw();
 		vm.reset_vm();
 		return res;
 	}

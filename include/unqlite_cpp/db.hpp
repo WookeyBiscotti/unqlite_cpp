@@ -105,6 +105,12 @@ class db {
 	std::optional<std::vector<unsigned char>> fetch_vector_or_throw(std::string_view key) const;
 
 	kv_cursor make_kv_cursor_or_throw();
+
+	// Transaction API
+	void begin_or_throw();
+	void rollback_or_throw();
+	void commit_or_throw();
+
 #endif
   private:
 	db(unqlite* _db) noexcept;
@@ -559,6 +565,29 @@ inline kv_cursor db::make_kv_cursor_or_throw() {
 		return std::move(*cursor);
 	} else {
 		throw up::exception_with_status(status);
+	}
+}
+
+// Transaction API
+inline void db::begin_or_throw() {
+	db_transaction_status status;
+	std::string_view error_text;
+	if (!begin(&status, &error_text)) {
+		throw up::exception_with_status(status, error_text);
+	}
+}
+inline void db::rollback_or_throw() {
+	db_transaction_status status;
+	std::string_view error_text;
+	if (!rollback(&status, &error_text)) {
+		throw up::exception_with_status(status, error_text);
+	}
+}
+inline void db::commit_or_throw() {
+	db_transaction_status status;
+	std::string_view error_text;
+	if (!commit(&status, &error_text)) {
+		throw up::exception_with_status(status, error_text);
 	}
 }
 

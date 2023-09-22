@@ -24,7 +24,6 @@
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
 // Distributed under the MIT License (MIT)
 
-
 // #include "db.hpp"
 //                     _ _ _       _____
 //                    | (_) |     /  __ \ _     _
@@ -37,7 +36,6 @@
 //
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
 // Distributed under the MIT License (MIT)
-
 
 // #include "exception.hpp"
 //                     _ _ _       _____
@@ -52,7 +50,6 @@
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
 // Distributed under the MIT License (MIT)
 
-
 // #include "statuses.hpp"
 //                     _ _ _       _____
 //                    | (_) |     /  __ \ _     _
@@ -65,7 +62,6 @@
 //
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
 // Distributed under the MIT License (MIT)
-
 
 #include <string_view>
 
@@ -208,7 +204,6 @@ struct status_to_string_view<vm_exec_status> {
 
 } // namespace up
 
-
 #ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 
 #include <stdexcept>
@@ -263,11 +258,9 @@ class exception_with_status: public exception {
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
 // Distributed under the MIT License (MIT)
 
-
 // #include "exception.hpp"
 
 // #include "statuses.hpp"
-
 
 #include <unqlite.h>
 
@@ -359,8 +352,7 @@ class kv_cursor {
 #endif
 
   private:
-	kv_cursor(unqlite* db, unqlite_kv_cursor* cursor) noexcept: _db(db), _cursor(cursor) {
-	}
+	kv_cursor(unqlite* db, unqlite_kv_cursor* cursor) noexcept: _db(db), _cursor(cursor) {}
 
 	bool process_op_error(int rc, kv_cursor_op_status* status) const noexcept;
 
@@ -664,7 +656,6 @@ inline kv_cursor& kv_cursor::reset_cursor_or_throw() {
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
 // Distributed under the MIT License (MIT)
 
-
 // #include "exception.hpp"
 
 // #include "statuses.hpp"
@@ -682,7 +673,6 @@ inline kv_cursor& kv_cursor::reset_cursor_or_throw() {
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
 // Distributed under the MIT License (MIT)
 
-
 // #include "exception.hpp"
 
 // #include "value.hpp"
@@ -698,9 +688,7 @@ inline kv_cursor& kv_cursor::reset_cursor_or_throw() {
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
 // Distributed under the MIT License (MIT)
 
-
 // #include "exception.hpp"
-
 
 #include <cassert>
 #include <cstdint>
@@ -1072,7 +1060,6 @@ inline void* value::get_resource_or_throw() const {
 
 } // namespace up
 
-
 #include <unqlite.h>
 
 #include <cstdint>
@@ -1418,7 +1405,6 @@ inline void* vm_value::get_resource_or_throw() const {
 
 } // namespace up
 
-
 #include <unqlite.h>
 
 #include <optional>
@@ -1611,7 +1597,6 @@ inline void vm::reset_vm_or_throw() {
 
 } // namespace up
 
-
 #include <unqlite.h>
 
 #include <cassert>
@@ -1701,6 +1686,11 @@ class db {
 	std::optional<std::vector<unsigned char>> fetch_vector_or_throw(std::string_view key) const;
 
 	kv_cursor make_kv_cursor_or_throw();
+
+	// Transaction API
+	void begin_or_throw();
+	void rollback_or_throw();
+	void commit_or_throw();
 #endif
   private:
 	db(unqlite* _db) noexcept;
@@ -2162,7 +2152,6 @@ inline kv_cursor db::make_kv_cursor_or_throw() {
 
 } // namespace up
 
-
 #include <optional>
 
 namespace up {
@@ -2322,7 +2311,6 @@ struct drop_record_vm {
 // Copyright (c) 2023 Alexandr Savchenko (skyswood@gmail.com)
 // Distributed under the MIT License (MIT)
 
-
 #include <sstream>
 
 namespace up {
@@ -2398,4 +2386,3 @@ std::string to_json_string(const V& value, std::size_t folding = 2) {
 // #include "vm.hpp"
 
 // #include "vm_value.hpp"
-
