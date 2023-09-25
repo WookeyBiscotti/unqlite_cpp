@@ -72,7 +72,7 @@ class value {
 	bool get_bool() const noexcept;
 	std::int64_t get_int() const noexcept;
 	double get_double() const noexcept;
-	std::string get_string() const noexcept;
+	const std::string& get_string() const noexcept;
 	std::string_view get_string_view() const noexcept;
 	void* get_resource() const noexcept;
 
@@ -178,11 +178,11 @@ inline std::int64_t value::get_int() const noexcept {
 inline double value::get_double() const noexcept {
 	return *std::get_if<double>(&_obj);
 }
-inline std::string value::get_string() const noexcept {
+inline const std::string& value::get_string() const noexcept {
 	return *std::get_if<std::string>(&_obj);
 }
 inline std::string_view value::get_string_view() const noexcept {
-	return *std::get_if<std::string>(&_obj);
+	return get_string();
 }
 
 template<class Fn>
