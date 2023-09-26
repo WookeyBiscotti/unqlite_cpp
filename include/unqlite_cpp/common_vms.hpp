@@ -294,4 +294,42 @@ class vm_drop_record {
 	vm_drop_record(up::db& db, up::vm vm): db(db), vm(std::move(vm)) {}
 };
 
+class vm_collection_exist {
+  public:
+	up::vm vm;
+	static std::optional<vm_collection_exist> make(up::db& db) noexcept {
+		auto vmo = db.compile("$rc = db_exists($collection);");
+		if (vmo) {
+			return vm_collection_exist{std::move(*vmo)};
+		} else {
+			return {};
+		}
+	}
+
+	vm_collection_exist(up::db& db):
+	    vm_collection_exist([&]() {
+		    auto vm = make(db);
+		    if (vm) {
+			    return std::move(vm->vm);
+		    } else {
+			    throw up::exception("Can't make vm");
+		    }
+	    }()) {}
+
+	bool exist(std::string_view collection) noexcept {
+		vm.bind("collection", collection);
+		auto res = false;
+		if (vm.exec()) {
+			if (auto rc = vm.extract("rc")) {
+				res = rc->is_bool() && rc->get_bool();
+			}
+		}
+		vm.reset_vm();
+		return res;
+	}
+
+  private:
+	vm_collection_exist(up::vm vm): vm(std::move(vm)) {}
+};
+
 } // namespace up

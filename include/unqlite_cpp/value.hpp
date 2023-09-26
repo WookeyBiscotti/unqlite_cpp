@@ -76,6 +76,13 @@ class value {
 	std::string_view get_string_view() const noexcept;
 	void* get_resource() const noexcept;
 
+	bool get_bool_or_default(bool d) const noexcept;
+	std::int64_t get_int_or_default(std::int64_t i) const noexcept;
+	double get_double_or_default(double d) const noexcept;
+	std::string get_string_or_default(std::string s) const noexcept;
+	std::string_view get_string_view_or_default(std::string_view s) const noexcept;
+	void* get_resource_or_default(void* r) const noexcept;
+
 	template<class Fn>
 	bool foreach_array(Fn fn) const noexcept;
 	template<class Fn>
@@ -223,6 +230,25 @@ bool value::foreach_object(Fn fn) noexcept {
 
 inline void* value::get_resource() const noexcept {
 	return *std::get_if<void*>(&_obj);
+}
+
+inline bool value::get_bool_or_default(bool b) const noexcept {
+	return is_bool() ? get_bool() : b;
+}
+inline std::int64_t value::get_int_or_default(std::int64_t i) const noexcept {
+	return is_int() ? get_int() : i;
+}
+inline double value::get_double_or_default(double d) const noexcept {
+	return is_double() ? get_double() : d;
+}
+inline std::string value::get_string_or_default(std::string s) const noexcept {
+	return is_string() ? get_string() : s;
+}
+inline std::string_view value::get_string_view_or_default(std::string_view s) const noexcept {
+	return is_string() ? get_string_view() : s;
+}
+inline void* value::get_resource_or_default(void* r) const noexcept {
+	return is_resource() ? get_resource() : r;
 }
 
 inline bool value::contains(const std::string& key) const noexcept {

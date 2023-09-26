@@ -13,11 +13,19 @@
 
 #include "exception.hpp"
 #include "statuses.hpp"
+#include "utils.hpp"
 #include "vm_value.hpp"
 
 #include <unqlite.h>
 
+#include <iostream>
 #include <optional>
+
+static int VmOutputConsumer(const void* pOutput, unsigned int nOutLen, void* pUserData /* Unused */) {
+	std::cout << std::string_view(static_cast<const char*>(pOutput), nOutLen);
+	/* All done, data was redirected to STDOUT */
+	return UNQLITE_OK;
+}
 
 namespace up {
 
@@ -61,7 +69,7 @@ class vm {
 #endif
 
   private:
-	vm(unqlite_vm* vm) noexcept: _vm(vm) {}
+	vm(unqlite_vm* vm) noexcept: _vm(vm) { unqlite_vm_config(_vm, UNQLITE_VM_CONFIG_OUTPUT, VmOutputConsumer, 0); }
 
   private:
 	unqlite_vm* _vm;
@@ -88,7 +96,7 @@ inline bool vm::bind(const std::string& var_name, const vm_value& var) noexcept 
 }
 
 inline bool vm::bind(const std::string& var_name, const value& value) noexcept {
-	return bind(var_name, vm_value(make_vm_value(value)));
+	return bind(var_name, make_vm_value(value));
 }
 
 inline vm_value vm::make_vm_value(const value& value) noexcept {

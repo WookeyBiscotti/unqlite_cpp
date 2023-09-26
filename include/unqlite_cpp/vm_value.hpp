@@ -55,6 +55,13 @@ class vm_value {
 	std::string_view get_string_view() const noexcept;
 	void* get_resource() const noexcept;
 
+	bool get_bool_or_default(bool d) const noexcept;
+	std::int64_t get_int_or_default(std::int64_t i) const noexcept;
+	double get_double_or_default(double d) const noexcept;
+	std::string get_string_or_default(std::string s) const noexcept;
+	std::string_view get_string_view_or_default(std::string_view s) const noexcept;
+	void* get_resource_or_default(void* r) const noexcept;
+
 	vm_value operator[](std::string_view key) const noexcept;
 	vm_value operator[](std::size_t idx) const noexcept;
 
@@ -165,6 +172,25 @@ inline std::string_view vm_value::get_string_view() const noexcept {
 }
 inline void* vm_value::get_resource() const noexcept {
 	return unqlite_value_to_resource(_v);
+}
+
+inline bool vm_value::get_bool_or_default(bool b) const noexcept {
+	return is_bool() ? get_bool() : b;
+}
+inline std::int64_t vm_value::get_int_or_default(std::int64_t i) const noexcept {
+	return is_int() ? get_int() : i;
+}
+inline double vm_value::get_double_or_default(double d) const noexcept {
+	return is_double() ? get_double() : d;
+}
+inline std::string vm_value::get_string_or_default(std::string s) const noexcept {
+	return is_string() ? get_string() : s;
+}
+inline std::string_view vm_value::get_string_view_or_default(std::string_view s) const noexcept {
+	return is_string() ? get_string_view() : s;
+}
+inline void* vm_value::get_resource_or_default(void* r) const noexcept {
+	return is_resource() ? get_resource() : r;
 }
 
 inline bool vm_value::contains(std::string_view key) const noexcept {
