@@ -60,12 +60,12 @@ class vm {
 #ifdef UNQLITE_CPP_ALLOW_EXCEPTIONS
 	vm_value extract_or_throw(const std::string& var_name);
 
-	void bind_or_throw(const std::string& var_name, const vm_value& var);
-	void bind_or_throw(const std::string& var_name, const value& var);
+	vm& bind_or_throw(const std::string& var_name, const vm_value& var);
+	vm& bind_or_throw(const std::string& var_name, const value& var);
 
-	void exec_or_throw();
+	vm& exec_or_throw();
 
-	void reset_vm_or_throw();
+	vm& reset_vm_or_throw();
 #endif
 
   private:
@@ -186,29 +186,37 @@ inline vm_value vm::extract_or_throw(const std::string& var_name) {
 	}
 }
 
-inline void vm::bind_or_throw(const std::string& var_name, const vm_value& var) {
+inline vm& vm::bind_or_throw(const std::string& var_name, const vm_value& var) {
 	if (!bind(var_name, var)) {
 		throw exception_with_status(vm_bind_status::ERROR);
 	}
+
+	return *this;
 }
 
-inline void vm::bind_or_throw(const std::string& var_name, const value& var) {
+inline vm& vm::bind_or_throw(const std::string& var_name, const value& var) {
 	if (!bind(var_name, var)) {
 		throw exception_with_status(vm_bind_status::ERROR);
 	}
+
+	return *this;
 }
 
-inline void vm::exec_or_throw() {
+inline vm& vm::exec_or_throw() {
 	vm_execute_status status;
 	if (!exec(&status)) {
 		throw exception_with_status(status);
 	}
+
+	return *this;
 }
 
-inline void vm::reset_vm_or_throw() {
+inline vm& vm::reset_vm_or_throw() {
 	if (!reset_vm()) {
 		throw exception_with_status(vm_exec_status::ERROR);
 	}
+
+	return *this;
 }
 
 #endif
