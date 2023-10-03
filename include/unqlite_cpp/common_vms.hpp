@@ -40,6 +40,7 @@ class vm_store_record {
 			}
 		}
 		$rc = db_store($collection, $value);
+		$stored_id = db_last_record_id($collection);
 		)");
 		if (vmo) {
 			return vm_store_record{db, std::move(*vmo)};
@@ -58,7 +59,7 @@ class vm_store_record {
 		    }
 	    }()) {}
 
-	bool store(std::string_view collection, const value& value) noexcept {
+	std::optional<std::int64_t> store(std::string_view collection, const value& value) noexcept {
 		vm.bind("collection", collection);
 		vm.bind("value", value);
 		auto res = false;
@@ -67,16 +68,31 @@ class vm_store_record {
 				res = rc->is_bool() && rc->get_bool();
 			}
 		}
+		std::int64_t id;
+		if (res) {
+			if (auto rc = vm.extract("stored_id")) {
+				id = rc->get_int();
+			} else {
+				res = false;
+			}
+		}
+
 		db.commit_or_throw();
 		vm.reset_vm();
-		return res;
+		if (res) {
+			return id;
+		} else {
+			return {};
+		}
 	}
 
-	void store_or_throw(std::string_view collection, const value& value) {
+	std::int64_t store_or_throw(std::string_view collection, const value& value) {
 		auto rc = store(collection, value);
 		if (!rc) {
 			throw up::exception("Can't store data");
 		}
+
+		return *rc;
 	}
 
   private:
