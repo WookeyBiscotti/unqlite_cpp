@@ -89,6 +89,11 @@ class value {
 	bool foreach_array(Fn fn) noexcept;
 
 	template<class Fn>
+	bool foreach_if_array(Fn fn) const noexcept;
+	template<class Fn>
+	bool foreach_if_array(Fn fn) noexcept;
+
+	template<class Fn>
 	bool foreach_object(Fn fn) const noexcept;
 	template<class Fn>
 	bool foreach_object(Fn fn) noexcept;
@@ -204,12 +209,12 @@ bool value::foreach_array(Fn fn) const noexcept {
 
 	return false;
 }
+
 template<class Fn>
 bool value::foreach_array(Fn fn) noexcept {
 	// Effective C++, 3d ed: Avoiding Duplication in const and Non-const Member Functions
 	return static_cast<const value*>(this)->foreach_array(fn);
 }
-
 template<class Fn>
 bool value::foreach_object(Fn fn) const noexcept {
 	const object& o = *std::get_if<object>(&_obj);
@@ -222,6 +227,21 @@ bool value::foreach_object(Fn fn) const noexcept {
 
 	return false;
 }
+template<class Fn>
+bool value::foreach_if_array(Fn fn) const noexcept {
+	if (is_array()) {
+		return foreach_array(fn);
+	}
+	return false;
+}
+template<class Fn>
+bool value::foreach_if_array(Fn fn) noexcept {
+	if (is_array()) {
+		return foreach_array(fn);
+	}
+	return false;
+}
+
 template<class Fn>
 bool value::foreach_object(Fn fn) noexcept {
 	// Effective C++, 3d ed: Avoiding Duplication in const and Non-const Member Functions
@@ -404,7 +424,6 @@ inline void* value::get_resource_or_throw() const {
 	}
 	return get_resource();
 }
-
 #endif
 
 } // namespace up
