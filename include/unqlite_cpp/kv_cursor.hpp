@@ -134,6 +134,8 @@ inline bool kv_cursor::process_op_error(int rc, kv_cursor_op_status* out_status)
 		status = kv_cursor_op_status::EOF_;
 	} else if (rc == UNQLITE_ABORT) {
 		status = kv_cursor_op_status::ABORT;
+	} else if (rc == SXERR_NOTFOUND) {
+		status = kv_cursor_op_status::NOTFOUND;
 	} else /*if (rc == UNQLITE_CORRUPT)*/ {
 		status = kv_cursor_op_status::CORRUPT;
 	}
@@ -328,7 +330,7 @@ bool kv_cursor::throw_if_error_in_callback(Fn fn,
 
 inline kv_cursor& kv_cursor::seek_or_throw(std::string_view key, kv_cursor_match_direction direction) {
 	kv_cursor_op_status status;
-	if (!kv_cursor::seek(key, direction, &status)) {
+	if (!kv_cursor::seek(key, direction, &status) && status != kv_cursor_op_status::NOTFOUND) {
 		throw exception_with_status(status);
 	}
 

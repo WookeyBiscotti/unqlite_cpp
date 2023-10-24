@@ -102,6 +102,7 @@ struct status_to_string_view<db_kv_write_status> {
 enum class kv_cursor_op_status {
 	OK,
 	EMPTY,
+	NOTFOUND,
 	CORRUPT,
 	NOTIMPLEMENTED,
 	EOF_,

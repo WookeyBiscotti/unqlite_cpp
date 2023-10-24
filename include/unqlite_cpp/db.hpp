@@ -459,35 +459,35 @@ inline vm db::compile_file_or_throw(const std::string& filepath) {
 inline void db::store_or_throw(std::string_view key, std::string_view data) {
 	db_kv_write_status status;
 	std::string_view text;
-	if (store(key, data, &status, &text)) {
+	if (!store(key, data, &status, &text)) {
 		throw up::exception_with_status(status, text);
 	}
 }
 inline void db::store_or_throw(std::string_view key, const void* data, std::size_t size) {
 	db_kv_write_status status;
 	std::string_view text;
-	if (store(key, data, size, &status, &text)) {
+	if (!store(key, data, size, &status, &text)) {
 		throw up::exception_with_status(status, text);
 	}
 }
 inline void db::append_or_throw(std::string_view key, const void* data, std::size_t size) {
 	db_kv_write_status status;
 	std::string_view text;
-	if (append(key, data, size, &status, &text)) {
+	if (!append(key, data, size, &status, &text)) {
 		throw up::exception_with_status(status, text);
 	}
 }
 inline void db::append_or_throw(std::string_view key, std::string_view data) {
 	db_kv_write_status status;
 	std::string_view text;
-	if (append(key, data, &status, &text)) {
+	if (!append(key, data, &status, &text)) {
 		throw up::exception_with_status(status, text);
 	}
 }
 inline void db::remove_or_throw(std::string_view key) {
 	db_kv_write_status status;
 	std::string_view text;
-	if (remove(key, &status, &text)) {
+	if (!remove(key, &status, &text)) {
 		throw up::exception_with_status(status, text);
 	}
 }
